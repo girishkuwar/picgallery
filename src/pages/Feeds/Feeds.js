@@ -53,9 +53,9 @@ const Feeds = () => {
       <Fullview close={closer} display={viewer} img={vievImg} />
       <div className={styles.container}>
         {imglist.map((url) => {
-          return (<div className={styles.images} onClick={() => bigit(url.url)} >
+          return (<div className={styles.images}  >
             <h1>Name</h1>
-            <img src={url.url} />
+            <img src={url.url} onClick={() => bigit(url.url)} />
             <div className={styles.btns}>
               <button>Like</button>
               <button>Comment</button>

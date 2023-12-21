@@ -1,8 +1,10 @@
 import React from 'react'
+import style from "./components.module.css"
 
 const Footer = () => {
   return (
-    <div>Footer</div>
+    <div className={style.footer}>
+      Photo Gallery</div>
   )
 }
 
