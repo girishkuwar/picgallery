@@ -1,22 +1,30 @@
 .Fullview {
   transition: 0.55s ease;
-  position: absolute;
+  position: fixed;
   height: 100vh;
   width: 100%;
   z-index: 15;
-  background-color: rgba(0, 0, 0, 0.651);
+  background-color: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(10px);
+  top: 0;
 }
 
 .image {
   display: flex;
   height: 100vh;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.image img {
+.image .imgcontainer {
   max-height: 90%;
   max-width: 90%;
+  position: relative;
+}
+.imgcontainer img {
+  width: 100%;
+  height: 100%;
 }
 
 .closebtn {
@@ -24,5 +32,24 @@
   border: 1px solid rgb(255, 255, 255);
   padding: 5px 20px;
   color: wheat;
-  margin-top: 20px;
+  position: absolute;
+  left: 0;
+  border-radius: 0  0 50% 0 ;
+}
+
+.likescontainer {
+  color: rgb(255, 255, 255);
+  font-size: .7rem;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  position: absolute;
+  /* right: 0; */
+  bottom: 50%;
+  transform: translateY(50%);
+  width: 50%;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 20px;
 }

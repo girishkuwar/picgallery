@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import icon from '../../assets/icon.jpg'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, json, useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase.config';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-    const auth = getAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -24,14 +20,15 @@ const HomePage = () => {
         }
 
         fetch("http://127.0.0.1:8090/api/collections/users/auth-with-password", options)
-        .then((res) => res.json())
-        .then((json) => {
-            console.log(json);
-            if(json.code != 400) {
-                localStorage.setItem('userid',json.record.id);
-                navigate("/feeds");
-            }
-        })
+            .then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                if (json.code != 400) {
+                    localStorage.setItem('userid', json.record.id);
+                    navigate("/feeds");
+                    window.location.reload();
+                }
+            })
     }
 
 
@@ -39,10 +36,10 @@ const HomePage = () => {
         <div className='home'>
             <img src={icon} alt="" />
             <div className="form">
-            <h4> Welcome </h4>
-            <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
-            <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
-            <button onClick={login}>Login</button><span>New Here <Link to={"/signup"}>Create Account</Link></span>
+                <h4> Welcome </h4>
+                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
+                <button onClick={login}>Login</button><span>New Here <Link to={"/signup"}>Create Account</Link></span>
             </div>
         </div>
     )

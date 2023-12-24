@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Feeds.module.css';
 import Fullview from '../Fullview/Fullview';
-import Pagination from '../Pagination/Pagination';
 
 const Feeds = () => {
   const [imglist, setImglist] = useState([]);
@@ -24,28 +23,7 @@ const Feeds = () => {
       alert("First Sign in ");
       return;
     }
-
-    if (likeinfo) {
-      let headersList = {
-        "Accept": "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        "Content-Type": "application/json"
-      };
-      let bodyContent = JSON.stringify({
-        "user": id,
-        "post": a,
-        "isliked": true
-      });
-
-      let response = await fetch(`http://127.0.0.1:8090/api/collections/likes/records/${likeinfo?.id}`, {
-        method: "PATCH",
-        body: bodyContent,
-        headers: headersList
-      });
-      getinfo(likeinfo?.post);
-
-    } else {
-
+    if (likeinfo?.length === 0) {
       let headersList = {
         "Accept": "*/*",
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
@@ -66,17 +44,8 @@ const Feeds = () => {
       getinfo(likeinfo?.post);
       let data = await response.text();
       console.log(data);
-    }
-  }
 
-
-  const dislike = async (a) => {
-    if (!id) {
-      alert("First Sign in ");
-      return;
-    }
-
-    if (likeinfo) {
+    } else {
       let headersList = {
         "Accept": "*/*",
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
@@ -85,8 +54,9 @@ const Feeds = () => {
       let bodyContent = JSON.stringify({
         "user": id,
         "post": a,
-        "isliked": false
+        "isliked": true
       });
+
       let response = await fetch(`http://127.0.0.1:8090/api/collections/likes/records/${likeinfo?.id}`, {
         method: "PATCH",
         body: bodyContent,
@@ -94,9 +64,14 @@ const Feeds = () => {
       });
 
       getinfo(likeinfo?.post);
-
-    } else {
-
+    }
+  }
+  const dislike = async (a) => {
+    if (!id) {
+      alert("First Sign in ");
+      return;
+    }
+    if (likeinfo?.length === 0) {
       let headersList = {
         "Accept": "*/*",
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
@@ -113,10 +88,29 @@ const Feeds = () => {
         body: bodyContent,
         headers: headersList
       });
-      
       getinfo(likeinfo?.post);
+
       let data = await response.text();
       console.log(JSON.parse(data));
+    } else {
+      let headersList = {
+        "Accept": "*/*",
+        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+        "Content-Type": "application/json"
+      };
+      let bodyContent = JSON.stringify({
+        "user": id,
+        "post": a,
+        "isliked": false
+      });
+
+      let response = await fetch(`http://127.0.0.1:8090/api/collections/likes/records/${likeinfo?.id}`, {
+        method: "PATCH",
+        body: bodyContent,
+        headers: headersList
+      });
+
+      getinfo(likeinfo?.post);
     }
   }
 
@@ -156,18 +150,13 @@ const Feeds = () => {
             <h1>{url.name}</h1>
             <img src={"http://127.0.0.1:8090/api/files/" + url.collectionId + "/" + url.id + "/" + url.field + "?thumb=10x30"} onClick={() => bigit(url)} />
             <div className={styles.btns}>
-              {/* {(likeinfo?.isliked) ? <button><i class='bx bxs-like'></i></button> :  */}
-              <button onClick={() => like(url.id)}><i class='bx bx-like'></i></button>
-              {/* } */}
-              {/* {(!likeinfo?.isliked && likeinfo) ? <button><i class='bx bxs-dislike' style={{ color: '#ffffff' }}></i></button> :  */}
-              <button onClick={() => dislike(url.id)}><i class='bx bx-dislike'></i></button>
-              {/* } */}
+              {(likeinfo?.isliked) ? <button><i class='bx bxs-like'></i></button> : <button onClick={() => like(url.id)}><i class='bx bx-like'></i></button>}
+              {(!likeinfo?.isliked && likeinfo) ? <button><i class='bx bxs-dislike' style={{ color: '#ffffff' }}></i></button> : <button onClick={() => dislike(url.id)}><i class='bx bx-dislike'></i></button>}
             </div>
           </div>
           );
         })}
       </div>
-      <Pagination/>
     </div>
   );
 }
