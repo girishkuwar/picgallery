@@ -7,6 +7,7 @@ const Fullview = ({ display, img, close, imgno }) => {
   const [dislikes, setDislikes] = useState([]);
   const [imgId, setimgId] = useState([]);
   const [pageNo, setPageNo] = useState(0);
+  const [reload, setReload] = useState(true);
 
   const prew = () => {
     console.log("Prew", pageNo);
@@ -22,6 +23,7 @@ const Fullview = ({ display, img, close, imgno }) => {
           data => {
             console.log("Prew After", pageNo);
             setimgId(data.items[0]);
+            setReload(!reload);
           }
         )
       })
@@ -39,6 +41,7 @@ const Fullview = ({ display, img, close, imgno }) => {
         res.json().then(
           data => {
             setimgId(data.items[0]);
+            setReload(!reload);
             console.log("Next After", pageNo);
           }
         )
@@ -67,7 +70,6 @@ const Fullview = ({ display, img, close, imgno }) => {
     getDisLikesCount();
     setimgId(img);
     setPageNo(imgno);
-    console.log("hs");
 
   }, [display, img])
 

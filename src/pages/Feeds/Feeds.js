@@ -163,7 +163,6 @@ const Feeds = () => {
     setCurrentPage(currentPage - 1);
   }
 
-  console.log(totalPages);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8090/api/collections/images/records?page=${currentPage}&perPage=${recordsPerPage}`)
