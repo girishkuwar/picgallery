@@ -20,7 +20,8 @@ function App() {
             <Route path='/feeds' element={<Feeds />} />
             <Route path='/uploadpage' element={<UploadPage />} />
           </Route>
-        </Routes></BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

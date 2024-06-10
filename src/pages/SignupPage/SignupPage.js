@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import icon from '../../assets/icon.jpg'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import { db } from '../../firebase.config';
 
 const SignupPage = () => {
-    const auth = getAuth();
     const [name, setName] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
@@ -30,7 +26,8 @@ const SignupPage = () => {
             .then((res) => res.json())
             .then((json) => {
                 alert(`Message Send Thank you for visiting ${name}`);
-                console.log(json)
+                console.log(json);
+                navigate('/');
             }
             );
     }
