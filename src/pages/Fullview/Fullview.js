@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Fullview.module.css';
+import imgs from './Group 6.png';
 
 const Fullview = ({ display, img, close, imgno }) => {
 
@@ -80,10 +81,14 @@ const Fullview = ({ display, img, close, imgno }) => {
       <div className={styles.image}>
         <div className={styles.imgcontainer}>
           <img src={"http://127.0.0.1:8090/api/files/" + imgId.collectionId + "/" + imgId.id + "/" + imgId.field} alt="" />
-          <button className={styles.closebtn} onClick={close}>Close</button>
-          <div className={styles.likescontainer}>
+          <div className={styles.close}>
+            <img src={imgs} alt="" onClick={close}/>
+          </div>
+          {/* <div className={styles.likescontainer}>
             <h1 className={styles.likes}><i class='bx bx-like'></i> {likes.length}</h1>
             <h1 className={styles.likes}><i class='bx bx-dislike'></i> {dislikes.length}</h1>
+          </div> */}
+          <div className={styles.btns}>
             <button onClick={prew}>Prew</button>
             <button onClick={next}>Next</button>
           </div>
