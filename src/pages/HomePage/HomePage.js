@@ -24,6 +24,7 @@ const HomePage = () => {
             .then((json) => {
                 console.log(json);
                 if (json.code !== 400) {
+                    localStorage.setItem('username',json.record.name);
                     localStorage.setItem('userid', json.record.id);
                     navigate("/feeds");
                     window.location.reload();

@@ -1,3 +1,36 @@
 .UploadPage {
-    
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.UploadPage input {
+    height: 30px;
+    padding: 5px 10px;
+}
+
+
+.UploadPage input[type="file"] {
+    display: none;
+    height: 200px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.UploadPage input::-webkit-file-upload-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: 50px;
+    font-size: .4rem;
+    display: none;
 }

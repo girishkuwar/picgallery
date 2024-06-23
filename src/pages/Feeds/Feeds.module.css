@@ -4,10 +4,11 @@
 .container {
     grid-template-columns: repeat(3,1fr);
     display: grid;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 0 2%;
     grid-auto-columns: minmax(100px, auto);
+    height: 1020px;
 }
 .images {
     background: rgb(235, 235, 235);
@@ -66,4 +67,9 @@
 }
 .btns button:hover {
     background: rgba(0, 0, 0, 0.836);
+}
+
+.btns img {
+    width: 25px;
+    height: 25px;
 }

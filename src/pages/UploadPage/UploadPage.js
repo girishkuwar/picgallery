@@ -8,7 +8,8 @@ const UploadPage = () => {
   const navigate = useNavigate();
 
   const uploadFile = async () => {
-    if (ImageUpload === "") return;
+    if (ImageUpload === "") return alert("Add Image");
+    if (name === "") return alert("Add Name");
     let bodyContent = new FormData();
     bodyContent.append("idno", localStorage.getItem('userid'));
     bodyContent.append("name", name);
@@ -21,14 +22,16 @@ const UploadPage = () => {
 
     let data = await response.text();
     console.log(data);
+    setImageUpload("");
+    setName("");
     alert("File Uploaded");
   }
 
-useEffect(() => {
-  if(!localStorage.getItem('userid')) {
-    navigate("/");
-  }
-}, [])
+  useEffect(() => {
+    if (!localStorage.getItem('userid')) {
+      navigate("/");
+    }
+  }, [])
 
 
 
@@ -37,7 +40,6 @@ useEffect(() => {
 
       <input type="text" placeholder="name" onChange={(e) => setName(e.target.value)} value={name} />
       <input type="file" onChange={(event) => { setImageUpload(event.target.files[0]); }} />
-
       <button onClick={uploadFile}> Upload Image</button>
     </div>
   )

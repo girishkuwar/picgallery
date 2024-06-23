@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Feeds.module.css';
 import Fullview from '../Fullview/Fullview';
 import Pagination from '../Pagination/Pagination';
+import like_pasive from "../../assets/Like_pasive.svg"
+import like_active from "../../assets/Like_active.svg"
+import dislike_pasive from "../../assets/disLike_pasive.svg"
+import dislike_active from "../../assets/disLike_active.svg"
 
 const Feeds = () => {
   const [imglist, setImglist] = useState([]);
@@ -12,8 +16,12 @@ const Feeds = () => {
   const [vievImg, setVievImg] = useState("");
   const [viewer, setviewer] = useState("none");
   const [currentImg, setCurrentImg] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [reload, setReload] = useState(true);
   const id = localStorage.getItem('userid');
   const paging = useRef();
+
+  let tmplist = [];
 
   const bigit = (u, i) => {
     setVievImg(u);
@@ -26,8 +34,15 @@ const Feeds = () => {
     setCurrentImg(i);
     setviewer("block");
   }
+
+
+  const nextImg = () => {
+  }
+
+
   const closer = () => {
     setviewer("none");
+    setCurrentImg(0);
   }
 
   const like = async (a) => {
@@ -54,6 +69,7 @@ const Feeds = () => {
         headers: headersList
       });
       getinfo(likeinfo?.post);
+      setReload(!reload);
 
     } else {
 
@@ -76,7 +92,7 @@ const Feeds = () => {
 
       getinfo(likeinfo?.post);
       let data = await response.text();
-      console.log(data);
+      setReload(!reload);
     }
   }
 
@@ -105,6 +121,7 @@ const Feeds = () => {
       });
 
       getinfo(likeinfo?.post);
+      setReload(!reload);
 
     } else {
 
@@ -127,7 +144,7 @@ const Feeds = () => {
 
       getinfo(likeinfo?.post);
       let data = await response.text();
-      console.log(JSON.parse(data));
+      setReload(!reload);
     }
   }
 
@@ -141,6 +158,34 @@ const Feeds = () => {
           }
         )
       })
+  }
+
+
+
+  const MergeList = (List) => {
+    List.forEach(async (e, i) => {
+      let data = await getSigleData(e.id);
+      if (data.items[0]?.isliked === undefined) {
+        console.log("UNDEFINED");
+      } else {
+        tmplist[i].isliked = data.items[0].isliked;
+      }
+    })
+    setImglist(tmplist);
+  }
+
+
+  const getSigleData = async (a) => {
+    let headersList = {
+      "Accept": "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)"
+    }
+    let response = await fetch(`http://127.0.0.1:8090/api/collections/likes/records?filter=(post='${a}' %26%26 user='${id}')`, {
+      method: "GET",
+      headers: headersList
+    });
+    let data = await response.text();
+    return JSON.parse(data);
   }
 
   const clearinfo = () => {
@@ -165,33 +210,41 @@ const Feeds = () => {
 
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8090/api/collections/images/records?page=${currentPage}&perPage=${recordsPerPage}`)
-      .then(res => {
-        res.json().then(
-          data => {
-            setImglist(data.items);
-            setTotalPages(data.totalPages);
-          }
-        )
-      })
-  }, [currentPage])
+    try {
+      fetch(`http://127.0.0.1:8090/api/collections/images/records?page=${currentPage}&perPage=${recordsPerPage}`)
+        .then(res => {
+          res.json().then(
+            data => {
+              setImglist(data.items);
+              setTotalPages(data.totalPages);
+              setTotalItems(data.totalItems);
+              tmplist = data.items;
+              MergeList(tmplist);
+            }
+          )
+        })
+    } catch (error) {
+        console.log(error);
+    }
+  }, [currentPage, reload])
 
   return (
     <div className={styles.Feeds}>
-      <Fullview close={closer} display={viewer} img={vievImg} imgno={currentImg} />
+      <Fullview nextImg={nextImg} close={closer} display={viewer} img={vievImg} imgno={currentImg} totalItems={totalItems} />
       <div className={styles.container}>
         {imglist?.map((url, i) => {
           return (<div onMouseEnter={() => getinfo(url.id)} onMouseLeave={clearinfo} key={url.id} className={styles.images}  >
             <h1>{url.name}</h1>
-            <img ref={paging} src={"http://127.0.0.1:8090/api/files/" + url.collectionId + "/" + url.id + "/" + url.field + "?thumb=10x30"} onClick={() => bigit(url, i)} />
+            <img alt={url.field} ref={paging} src={"http://127.0.0.1:8090/api/files/" + url.collectionId + "/" + url.id + "/" + url.field + "?thumb=10x30"} onClick={() => bigit(url, i)} />
             <div className={styles.btns}>
-              <button onClick={() => like(url.id)}><i class='bx bx-like'></i></button>
-              <button onClick={() => dislike(url.id)}><i class='bx bx-dislike'></i></button>
+              <button onClick={() => like(url.id)}>{(url?.isliked) ? <img alt='Like_Active' src={like_active} /> : <img alt='Like_pasive' src={like_pasive} />}  </button>
+              <button onClick={() => dislike(url.id)}>{(url?.isliked === false) ? <img alt='Dislike_Active' src={dislike_active} /> : <img alt='DisLike_pasive' src={dislike_pasive} />}</button>
             </div>
           </div>
           );
         })}
       </div>
+  
       <Pagination isfirst={(currentPage === 1) ? true : false} isLast={(currentPage === totalPages) ? true : false} next={nextpage} prew={prevpage} />
     </div>
   );

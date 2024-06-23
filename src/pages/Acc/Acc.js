@@ -31,6 +31,9 @@ const Acc = () => {
 
   return (
     <div className={styles.Acc}>
+      {(id) ? <>
+      
+
       <Fullview close={closer} display={viewer} img={vievImg} />
       <div className={styles.container}>
         {imglist.map((url) => {
@@ -45,6 +48,10 @@ const Acc = () => {
           );
         })}
       </div>
+          </> : <>
+          <h1>Sing In To See Your Pics</h1>
+          
+          </> }
     </div>
   );
 }
