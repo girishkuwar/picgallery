@@ -1,16 +1,26 @@
+:root {
+  --main-clr: #845EC2;
+  --main-dark-clr: #4B4453;
+  --main-light-clr: #B0A8B9;
+  --text-clr: #C34A36;
+  --text-light-clr: #FF8066;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 .home {
   padding: 25px;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-.home .form{
+
+.home .form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +31,7 @@
   margin: 5px 0;
 }
 
-.home button{
+.home button {
   width: 100px;
   margin: 5px 0;
 }
@@ -43,6 +53,4 @@
   margin: 5px 0;
 }
 
-.signup {
-
-}
+.signup {}

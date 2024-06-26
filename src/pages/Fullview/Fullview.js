@@ -111,7 +111,6 @@ const Fullview = ({ display, img, close, imgno, totalItems }) => {
 
 
 
-  console.clear();
   let userLike = likes.find((o) => o.user === id);
   // console.log(userLike);
   let userDisLike = dislikes.find((o) => o.user === id);
