@@ -55,6 +55,10 @@ const Fullview = ({ display, img, close, imgno, totalItems }) => {
 
 
   const sendComment = async () => {
+    if (!id) {
+      alert("First Sign in ");
+      return;
+    }
     let headersList = {
       "Accept": "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
