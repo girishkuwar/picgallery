@@ -66,7 +66,7 @@ const Acc = () => {
             imglist.map((img) => {
               return (
                 <div className={styles.images}>
-                  <img src={`http://127.0.0.1:8090/api/files/${img.collectionId}/${img.id}/${img.field}?thumb=10x30`}/>
+                  <img src={`http://127.0.0.1:8090/api/files/${img.collectionId}/${img.id}/${img.field}?thumb=10x30`} />
 
                 </div>
               )
